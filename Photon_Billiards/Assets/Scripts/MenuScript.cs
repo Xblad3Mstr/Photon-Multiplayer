@@ -32,6 +32,6 @@ public class MenuScript : MonoBehaviour
         //{
         //  SceneManager.LoadScene("GameScene");
         // }
-        SceneManager.LoadScene(gameScene);
+        SceneManager.LoadScene(gameScene.name);
     }
 }
