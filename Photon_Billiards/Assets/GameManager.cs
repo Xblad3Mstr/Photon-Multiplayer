@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Image powerBar;
     [SerializeField]
+    private Camera playCam;
+    [SerializeField]
     private float power = 500f;
     private Vector3 startingMouse;
     private float powerMultiplier;
@@ -21,6 +23,10 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetMouseButton(1))
+        {
+            playCam.transform.RotateAround(cue.position, transform.up, Input.GetAxis("Mouse X") * 10);
+        }
         if (Input.GetMouseButtonDown(0))
         {
             startingMouse = Input.mousePosition;
@@ -34,8 +40,9 @@ public class GameManager : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             powerMultiplier = powerBar.fillAmount;
-            cue.AddForce(transform.forward * power * powerMultiplier);
+            cue.AddForce(playCam.transform.forward * power * powerMultiplier);
             powerBar.fillAmount = 0f;
+            playCam.enabled = false;
         }
     }
 }
