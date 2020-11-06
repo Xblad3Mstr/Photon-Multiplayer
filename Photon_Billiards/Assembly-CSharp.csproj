@@ -58,6 +58,7 @@
     <Compile Include="Assets\Scripts\MenuScript.cs" />
     <Compile Include="Assets\Scripts\SimpleCameraController.cs" />
     <Compile Include="Assets\GameManager.cs" />
+    <Compile Include="Assets\Ball.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

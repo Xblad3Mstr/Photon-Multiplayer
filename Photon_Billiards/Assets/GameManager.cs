@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    [HideInInspector]
+    public static GameManager Instance;
     [SerializeField]
-    private Rigidbody cue;
+    private GameObject cue;
     [SerializeField]
     private Image powerBar;
     [SerializeField]
@@ -18,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Instance = this;
         powerBar.fillAmount = 0f;
     }
 
@@ -25,7 +28,8 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetMouseButton(1))
         {
-            playCam.transform.RotateAround(cue.position, transform.up, Input.GetAxis("Mouse X") * 10);
+            cue.transform.RotateAround(cue.transform.position, transform.up, Input.GetAxis("Mouse X") * 10);
+
         }
         if (Input.GetMouseButtonDown(0))
         {
@@ -40,9 +44,28 @@ public class GameManager : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             powerMultiplier = powerBar.fillAmount;
-            cue.AddForce(playCam.transform.forward * power * powerMultiplier);
+            cue.GetComponent<Rigidbody>().AddForce(cue.transform.forward * power * powerMultiplier);
             powerBar.fillAmount = 0f;
             playCam.enabled = false;
         }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ResetCue();
+        }
+    }
+
+    public void CountBall(int num)
+    {
+        Debug.Log("Ball number: " + num + " in pocket");
+    }
+
+    private void ResetCue()
+    {
+        //Vector3 p = cue.transform.position;
+       // cue.transform.position = p;
+        cue.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        cue.transform.rotation = Quaternion.identity;
+        playCam.enabled = true;
     }
 }
