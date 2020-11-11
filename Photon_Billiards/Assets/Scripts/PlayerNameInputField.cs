@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using TMPro;
 
 [RequireComponent(typeof(InputField))]
 
@@ -32,6 +33,8 @@ public class PlayerNameInputField : MonoBehaviour
     {
         if (string.IsNullOrEmpty(value))
         {
+            //InputField _inputField = this.GetComponent<InputField>();
+            //_inputField.text = "test";
             Debug.LogError("No Name");
             return;
         }

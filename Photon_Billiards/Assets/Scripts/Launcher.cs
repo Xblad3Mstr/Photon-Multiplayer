@@ -9,7 +9,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     #region Private Serializable Fields
     [Tooltip("The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
     [SerializeField]
-    private byte maxPlayersPerRoom = 4;
+    private byte maxPlayersPerRoom = 2;
 
 
 
@@ -115,7 +115,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             Debug.Log("We load the 'Room for 1' ");
 
-            PhotonNetwork.LoadLevel("GameScene");
+            PhotonNetwork.LoadLevel("BallTest");
         }
     }
     #endregion

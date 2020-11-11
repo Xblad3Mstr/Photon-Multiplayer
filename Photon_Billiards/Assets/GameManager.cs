@@ -2,70 +2,74 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+
+public class GameManager : MonoBehaviourPunCallbacks
 {
     [HideInInspector]
     public static GameManager Instance;
-    [SerializeField]
-    private GameObject cue;
-    [SerializeField]
-    private Image powerBar;
-    [SerializeField]
-    private Camera playCam;
-    [SerializeField]
-    private float power = 500f;
-    private Vector3 startingMouse;
-    private float powerMultiplier;
 
     private void Start()
     {
         Instance = this;
-        powerBar.fillAmount = 0f;
+
+        // in case we started this demo with the wrong scene being active, simply load the menu scene
+        if (!PhotonNetwork.IsConnected)
+        {
+            SceneManager.LoadScene(0);
+
+            return;
+        }
+
+        //if (playerPrefab == null)
+        //{ // #Tip Never assume public properties of Components are filled up properly, always check and inform the developer of it.
+
+        //    Debug.LogError("<Color=Red><b>Missing</b></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
+        //}
+        //else
+        //{
+
+
+        //    if (PlayerManager.LocalPlayerInstance == null)
+        //    {
+        //        Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
+
+        //        // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
+        //        PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+        //    }
+        //    else
+        //    {
+
+        //        Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
+        //    }
+
+
+        //}
     }
 
     void Update()
     {
-        if (Input.GetMouseButton(1))
-        {
-            cue.transform.RotateAround(cue.transform.position, transform.up, Input.GetAxis("Mouse X") * 10);
 
-        }
-        if (Input.GetMouseButtonDown(0))
-        {
-            startingMouse = Input.mousePosition;
-        }
-        if (Input.GetMouseButton(0))
-        {
-            //float distance = Vector3.Distance(startingMouse, Input.mousePosition);
-            float distance = (startingMouse - Input.mousePosition).y;
-            powerBar.fillAmount = distance / 200;
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            powerMultiplier = powerBar.fillAmount;
-            cue.GetComponent<Rigidbody>().AddForce(cue.transform.forward * power * powerMultiplier);
-            powerBar.fillAmount = 0f;
-            playCam.enabled = false;
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ResetCue();
-        }
     }
+
 
     public void CountBall(int num)
     {
         Debug.Log("Ball number: " + num + " in pocket");
     }
 
-    private void ResetCue()
+    public override void OnPlayerEnteredRoom(Player other)
     {
-        //Vector3 p = cue.transform.position;
-       // cue.transform.position = p;
-        cue.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-        cue.transform.rotation = Quaternion.identity;
-        playCam.enabled = true;
+        Debug.Log("OnPlayerEnteredRoom() " + other.NickName); // not seen if you're the player connecting
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
+
+            //LoadArena();
+        }
     }
 }

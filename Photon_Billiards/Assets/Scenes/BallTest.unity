@@ -538,6 +538,10 @@ GameObject:
   - component: {fileID: 139534632}
   - component: {fileID: 139534631}
   - component: {fileID: 139534630}
+  - component: {fileID: 139534636}
+  - component: {fileID: 139534635}
+  - component: {fileID: 139534637}
+  - component: {fileID: 139534638}
   m_Layer: 0
   m_Name: Cue
   m_TagString: Ball
@@ -638,6 +642,72 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &139534635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139534629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+--- !u!114 &139534636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139534629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 1
+  ObservedComponents:
+  - {fileID: 139534635}
+  viewIdField: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &139534637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139534629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7a51e676dd2c2840b009ec4560e094d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cue: {fileID: 139534629}
+  powerBar: {fileID: 1978981080}
+  playCam: {fileID: 852875246}
+  power: 500
+--- !u!114 &139534638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139534629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb1b95baa90a2904f8758b8b5e9549a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &189562162
 GameObject:
   m_ObjectHideFlags: 0
@@ -1542,10 +1612,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46b6c692f5d13994b8d3a0a8c9fc30a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cue: {fileID: 139534629}
-  powerBar: {fileID: 1978981080}
-  playCam: {fileID: 852875246}
-  power: 500
 --- !u!4 &1400371367
 Transform:
   m_ObjectHideFlags: 0
@@ -1932,6 +1998,49 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b84ddb7411545df43b1fcacfc90e0e4d, type: 3}
+--- !u!1 &2053584186 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5510685097829244657, guid: b84ddb7411545df43b1fcacfc90e0e4d, type: 3}
+  m_PrefabInstance: {fileID: 2053584185}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2053584187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053584186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+--- !u!114 &2053584188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053584186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 2053584187}
+  viewIdField: 2
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!4 &2091141490 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5185331244840293800, guid: 4fb97e6817b066c47acf1a0aa11f5741, type: 3}
