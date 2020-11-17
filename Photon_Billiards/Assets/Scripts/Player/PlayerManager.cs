@@ -21,9 +21,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     private Vector3 startingMouse;
     private float powerMultiplier;
 
+
+
     private void Start()
     {
         powerBar.fillAmount = 0f;
+
+
     }
 
     void Update()
