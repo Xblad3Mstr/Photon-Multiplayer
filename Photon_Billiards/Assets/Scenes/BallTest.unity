@@ -619,7 +619,6 @@ MonoBehaviour:
   powerBar: {fileID: 1978981080}
   playCam: {fileID: 852875246}
   power: 500
-  player1Score: {fileID: 0}
 --- !u!114 &139534638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1125,7 +1124,7 @@ GameObject:
   - component: {fileID: 747056011}
   - component: {fileID: 747056010}
   m_Layer: 5
-  m_Name: 'PlayerTwoScore '
+  m_Name: PlayerTwoScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
