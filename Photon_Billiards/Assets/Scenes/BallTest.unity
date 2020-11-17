@@ -596,7 +596,7 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   observableSearch: 2
-  Synchronization: 3
+  Synchronization: 2
   OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 139534635}
@@ -619,6 +619,7 @@ MonoBehaviour:
   powerBar: {fileID: 1978981080}
   playCam: {fileID: 852875246}
   power: 500
+  isHit: 0
 --- !u!114 &139534638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1694,6 +1695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cue: {fileID: 139534629}
+  playCam: {fileID: 852875246}
 --- !u!4 &1400371367
 Transform:
   m_ObjectHideFlags: 0

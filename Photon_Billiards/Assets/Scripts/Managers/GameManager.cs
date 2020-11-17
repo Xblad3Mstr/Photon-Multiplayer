@@ -13,10 +13,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static GameManager Instance;
     [SerializeField]
     private GameObject cue;
+    public Camera playCam;
 
     private void Start()
     {
         Instance = this;
+
 
         // in case we started this demo with the wrong scene being active, simply load the menu scene
         if (!PhotonNetwork.IsConnected)
@@ -25,6 +27,15 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             return;
         }
+
+        if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
+        {
+            if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[1])
+            {
+                playCam.enabled = false;
+            }
+        }
+        
 
         //if (playerPrefab == null)
         //{ // #Tip Never assume public properties of Components are filled up properly, always check and inform the developer of it.
@@ -77,19 +88,27 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void SwitchTurn()
     {
-        Debug.Log(PhotonNetwork.PlayerList[0].NickName);
-        Debug.Log(PhotonNetwork.PlayerList[1].NickName);
-        PhotonView view = cue.GetPhotonView();
-        if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[0])
+        Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
+        Player newPlayer;
+        if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
         {
-            Player newPlayer = PhotonNetwork.PlayerList[1];
-            view.TransferOwnership(newPlayer);
-        }
-        else
-        {
-            Player newPlayer = PhotonNetwork.PlayerList[0];
-            view.TransferOwnership(newPlayer);
+            PhotonView view = cue.GetPhotonView();
+            if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[0])
+            {
+                newPlayer = PhotonNetwork.PlayerList[1];
+                view.TransferOwnership(newPlayer);
+            }
+            else
+            {
+                newPlayer = PhotonNetwork.PlayerList[0];
+                view.TransferOwnership(newPlayer);
+            }
         }
         
+        cue.transform.rotation = Quaternion.Euler(Vector3.zero);
+        cue.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        cue.transform.rotation = Quaternion.Euler(Vector3.zero);
+        cue.GetComponent<PlayerManager>().isHit = false;
     }
 }

@@ -9,7 +9,6 @@ using Photon.Realtime;
 
 public class PlayerManager : MonoBehaviourPunCallbacks
 {
-    
     [SerializeField]
     private GameObject cue;
     [SerializeField]
@@ -20,48 +19,67 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     private float power = 500f;
     private Vector3 startingMouse;
     private float powerMultiplier;
+    public bool isHit;
 
 
 
     private void Start()
     {
         powerBar.fillAmount = 0f;
-
-
+        isHit = false;
+        cue.transform.rotation = Quaternion.Euler(Vector3.zero);
+        cue.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        cue.transform.rotation = Quaternion.Euler(Vector3.zero);
     }
 
     void Update()
     {
         if (!photonView.IsMine)
         {
+            cue.transform.rotation = Quaternion.Euler(Vector3.zero);
+            cue.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            cue.transform.rotation = Quaternion.Euler(Vector3.zero);
+            GameManager.Instance.playCam.enabled = false;
             return;
         }
 
-        if (Input.GetMouseButton(1))
-        {
-            cue.transform.RotateAround(cue.transform.position, transform.up, Input.GetAxis("Mouse X") * 10);
+        CheckHit();
 
-        }
-        if (Input.GetMouseButtonDown(0))
+        if (!isHit)
         {
-            startingMouse = Input.mousePosition;
+            if (Input.GetMouseButton(1))
+            {
+                cue.transform.RotateAround(cue.transform.position, transform.up, Input.GetAxis("Mouse X") * 10);
+
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                startingMouse = Input.mousePosition;
+            }
+            if (Input.GetMouseButton(0))
+            {
+                //float distance = Vector3.Distance(startingMouse, Input.mousePosition);
+                float distance = (startingMouse - Input.mousePosition).y;
+                powerBar.fillAmount = distance / 200;
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                powerMultiplier = powerBar.fillAmount;
+                cue.GetComponent<Rigidbody>().AddForce(cue.transform.forward * power * powerMultiplier);
+                powerBar.fillAmount = 0f;
+                isHit = true;
+            }
         }
-        if (Input.GetMouseButton(0))
-        {
-            //float distance = Vector3.Distance(startingMouse, Input.mousePosition);
-            float distance = (startingMouse - Input.mousePosition).y;
-            powerBar.fillAmount = distance / 200;
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            powerMultiplier = powerBar.fillAmount;
-            cue.GetComponent<Rigidbody>().AddForce(cue.transform.forward * power * powerMultiplier);
-            powerBar.fillAmount = 0f;
-            playCam.enabled = false;
-        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            ResetCue();
+            cue.transform.rotation = Quaternion.Euler(Vector3.zero);
+            cue.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            cue.transform.rotation = Quaternion.identity;
+            GameManager.Instance.SwitchTurn();
         }
         if (cue.transform.position.y < -3) {
 
@@ -69,6 +87,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
         }
     }
+
+    private void CheckHit()
+    {
+        if (!isHit)
+        {
+            playCam.enabled = true;
+        }
+        else
+        {
+            playCam.enabled = false;
+        }
+    }
+
     private void ResetCuePosition()
     {
         
@@ -78,21 +109,5 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             cue.GetComponent<Rigidbody>().velocity = Vector3.zero;
             cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
-    }
-
-    private void ResetCue()
-    {
-        //if (!photonView.IsMine)
-        //{
-        //    Debug.Log("am I here?");
-        //    base.photonView.RequestOwnership();
-        //}
-        //Vector3 p = cue.transform.position;
-        // cue.transform.position = p;
-        cue.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-        cue.transform.rotation = Quaternion.identity;
-        playCam.enabled = true;
-        GameManager.Instance.SwitchTurn();
     }
 }
