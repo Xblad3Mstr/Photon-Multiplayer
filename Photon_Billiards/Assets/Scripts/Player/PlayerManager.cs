@@ -89,5 +89,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         cue.transform.rotation = Quaternion.identity;
         playCam.enabled = true;
+        GameManager.Instance.SwitchTurn();
     }
 }

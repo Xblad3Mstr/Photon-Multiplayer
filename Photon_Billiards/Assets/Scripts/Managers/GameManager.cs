@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     [HideInInspector]
     public static GameManager Instance;
+    [SerializeField]
+    private GameObject cue;
 
     private void Start()
     {
@@ -71,5 +73,23 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             //LoadArena();
         }
+    }
+
+    public void SwitchTurn()
+    {
+        Debug.Log(PhotonNetwork.PlayerList[0].NickName);
+        Debug.Log(PhotonNetwork.PlayerList[1].NickName);
+        PhotonView view = cue.GetPhotonView();
+        if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[0])
+        {
+            Player newPlayer = PhotonNetwork.PlayerList[1];
+            view.TransferOwnership(newPlayer);
+        }
+        else
+        {
+            Player newPlayer = PhotonNetwork.PlayerList[0];
+            view.TransferOwnership(newPlayer);
+        }
+        
     }
 }
