@@ -88,27 +88,50 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void SwitchTurn()
     {
+        GameObject[] balls = GameObject.FindGameObjectsWithTag("Ball");
+
         Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
         Player newPlayer;
         if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
         {
-            PhotonView view = cue.GetPhotonView();
+            //PhotonView view = cue.GetPhotonView();
             if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[0])
             {
                 newPlayer = PhotonNetwork.PlayerList[1];
-                view.TransferOwnership(newPlayer);
+                foreach (GameObject ball in balls)
+                {
+                    PhotonView view = ball.GetPhotonView();
+                    view.TransferOwnership(newPlayer);
+
+                    ball.transform.rotation = Quaternion.Euler(Vector3.zero);
+                    ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+                    ball.transform.rotation = Quaternion.Euler(Vector3.zero);
+                }
             }
             else
             {
                 newPlayer = PhotonNetwork.PlayerList[0];
-                view.TransferOwnership(newPlayer);
+                foreach (GameObject ball in balls)
+                {
+                    PhotonView view = ball.GetPhotonView();
+                    view.TransferOwnership(newPlayer);
+
+                    ball.transform.rotation = Quaternion.Euler(Vector3.zero);
+                    ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+                    ball.transform.rotation = Quaternion.Euler(Vector3.zero);
+                }
             }
         }
-        
-        cue.transform.rotation = Quaternion.Euler(Vector3.zero);
-        cue.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-        cue.transform.rotation = Quaternion.Euler(Vector3.zero);
+        else
+        {
+            cue.transform.rotation = Quaternion.Euler(Vector3.zero);
+            cue.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            cue.transform.rotation = Quaternion.Euler(Vector3.zero);
+        }
+
         cue.GetComponent<PlayerManager>().isHit = false;
     }
 }

@@ -17,8 +17,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     private Camera playCam;
     [SerializeField]
     private float power = 500f;
+    [SerializeField]
+    private float stopThreshold = 1f;
     private Vector3 startingMouse;
     private float powerMultiplier;
+    [HideInInspector]
     public bool isHit;
 
 
@@ -72,6 +75,18 @@ public class PlayerManager : MonoBehaviourPunCallbacks
                 isHit = true;
             }
         }
+        else
+        {
+            if (Mathf.Abs(cue.GetComponent<Rigidbody>().velocity.x) < stopThreshold && Mathf.Abs(cue.GetComponent<Rigidbody>().velocity.y) < stopThreshold && Mathf.Abs(cue.GetComponent<Rigidbody>().velocity.z) < stopThreshold)
+            {
+                //Debug.Log("is it basically stopped?");
+                StartCoroutine("CheckAgain");
+            }
+            //if (cue.GetComponent<Rigidbody>().velocity == Vector3.zero)
+            //{
+            //    StartCoroutine("CheckAgain");
+            //}
+        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -109,5 +124,28 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             cue.GetComponent<Rigidbody>().velocity = Vector3.zero;
             cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
+    }
+
+    IEnumerator CheckAgain()
+    {
+        yield return new WaitForSeconds(.2f);
+        if (Mathf.Abs(cue.GetComponent<Rigidbody>().velocity.x) < stopThreshold && Mathf.Abs(cue.GetComponent<Rigidbody>().velocity.y) < stopThreshold && Mathf.Abs(cue.GetComponent<Rigidbody>().velocity.z) < stopThreshold)
+        {
+            //Debug.Log("Is ball stopped?");
+            cue.transform.rotation = Quaternion.Euler(Vector3.zero);
+            cue.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            cue.transform.rotation = Quaternion.identity;
+            GameManager.Instance.SwitchTurn();
+        }
+        //if (cue.GetComponent<Rigidbody>().velocity == Vector3.zero)
+        //{
+        //    //Debug.Log("Is ball stopped?");
+        //    cue.transform.rotation = Quaternion.Euler(Vector3.zero);
+        //    cue.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        //    cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        //    cue.transform.rotation = Quaternion.identity;
+        //    GameManager.Instance.SwitchTurn();
+        //}
     }
 }
