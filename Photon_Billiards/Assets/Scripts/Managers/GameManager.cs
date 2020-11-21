@@ -15,8 +15,17 @@ public class GameManager : MonoBehaviourPunCallbacks
     private GameObject cue;
     [SerializeField]
     private Text gameOver;
-    private bool gameIsOver;
+    [SerializeField]
+    private GameObject[] ballIcons;
+
     public Camera playCam;
+
+    private bool gameIsOver;
+    private int p1Score = 0;
+    private int p2Score = 0;
+    private Text player1Name;
+    private Text player2Name;
+
 
     [Header("Set Dynamically")]
     public Text player1Score;
@@ -50,46 +59,68 @@ public class GameManager : MonoBehaviourPunCallbacks
         GameObject scorePlayer2 = GameObject.Find("PlayerTwoScore");
         player2Score = scorePlayer2.GetComponent<Text>();
         player2Score.text = "0";
+
+        player1Name = GameObject.Find("PlayerOneScore Title").GetComponent<Text>();
+        player2Name = GameObject.Find("PlayerTwoScore Title").GetComponent<Text>();
     }
 
     public void GameOver(string winner)
     {
         gameOver.text = winner;
         gameIsOver = true;
+        PhotonNetwork.Destroy(cue);
     }
 
     void Update()
     {
-
+        player1Score.text = p1Score.ToString();
+        player2Score.text = p2Score.ToString();
+        if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
+        {
+            SetPlayerNames();
+        }
     }
 
 
-    public void CountBall(int num, GameObject ball)
+    public void CountBall(int num)
     {
         Debug.Log("Ball number: " + num + " in pocket");
-        if (cue.GetComponent<PhotonView>().IsMine)
+        if (cue.GetPhotonView().Owner == PhotonNetwork.PlayerList[0])
         {
-            int score = int.Parse(player1Score.text);
-            score += 100;
-            player1Score.text = score.ToString();
-            if (int.Parse(player1Score.text) >= 800)
+
+            Debug.Log("Player 1 scored");
+            p1Score += 100;
+            
+            if (p1Score >= 800)
             {
                 string winner = "Player 1 wins";
-                GameManager.Instance.GameOver(winner);
+                GameOver(winner);
             }
-            //Destroy(ball);
+            foreach (GameObject ballIcon in ballIcons)
+            {
+                if (ballIcon.name == num.ToString())
+                {
+                    ballIcon.SetActive(true);
+                }
+            }
         }
-        if (!cue.GetComponent<PhotonView>().IsMine)
+        else
         {
-            int score = int.Parse(player2Score.text);
-            score += 100;
-            player2Score.text = score.ToString();
-            if (int.Parse(player2Score.text) >= 800)
+            Debug.Log("Player 2 scored");
+            p2Score += 100;
+            
+            if (p2Score >= 800)
             {
                 string winner = "Player 2 wins";
-                GameManager.Instance.GameOver(winner);
+                GameOver(winner);
             }
-            //Destroy(ball);
+            foreach (GameObject ballIcon in ballIcons)
+            {
+                if (ballIcon.name == num.ToString())
+                {
+                    ballIcon.SetActive(true);
+                }
+            }
         }
     }
 
@@ -100,9 +131,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
-
-            //LoadArena();
         }
+        
     }
 
     public void SwitchTurn()
@@ -165,5 +195,33 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(0);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            // We own this player: send the others our data
+            stream.SendNext(p1Score);
+            stream.SendNext(p2Score);
+        }
+        else
+        {
+            // Network player, receive data
+            p1Score = (int)stream.ReceiveNext();
+            p2Score = (int)stream.ReceiveNext();
+        }
+    }
+
+    private void SetPlayerNames()
+    {
+        player1Name.text = PhotonNetwork.PlayerList[0].NickName;
+        player2Name.text = PhotonNetwork.PlayerList[1].NickName;
+        
+        if (!cue.GetPhotonView().IsMine)
+        {
+            player1Name.text = PhotonNetwork.PlayerList[0].NickName;
+            player2Name.text = PhotonNetwork.PlayerList[1].NickName;
+        }
     }
 }

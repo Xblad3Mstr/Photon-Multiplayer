@@ -48,6 +48,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
             cue.transform.rotation = Quaternion.Euler(Vector3.zero);
             GameManager.Instance.playCam.enabled = false;
+            line.SetPosition(0, transform.position);
+            line.SetPosition(1, transform.position);
             return;
         }
 
@@ -82,6 +84,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         }
         else
         {
+            line.SetPosition(0, transform.position);
             line.SetPosition(1, transform.position);
             if (Mathf.Abs(cue.GetComponent<Rigidbody>().velocity.x) < stopThreshold && Mathf.Abs(cue.GetComponent<Rigidbody>().velocity.y) < stopThreshold && Mathf.Abs(cue.GetComponent<Rigidbody>().velocity.z) < stopThreshold)
             {
