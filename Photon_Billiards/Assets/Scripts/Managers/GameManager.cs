@@ -13,12 +13,19 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static GameManager Instance;
     [SerializeField]
     private GameObject cue;
+    [SerializeField]
+    private Text gameOver;
+    private bool gameIsOver;
     public Camera playCam;
+
+    [Header("Set Dynamically")]
+    public Text player1Score;
+    public Text player2Score;
 
     private void Start()
     {
         Instance = this;
-
+        gameIsOver = false;
 
         // in case we started this demo with the wrong scene being active, simply load the menu scene
         if (!PhotonNetwork.IsConnected)
@@ -35,32 +42,20 @@ public class GameManager : MonoBehaviourPunCallbacks
                 playCam.enabled = false;
             }
         }
-        
 
-        //if (playerPrefab == null)
-        //{ // #Tip Never assume public properties of Components are filled up properly, always check and inform the developer of it.
+        GameObject scorePlayer1 = GameObject.Find("PlayerOneScore");
+        player1Score = scorePlayer1.GetComponent<Text>();
+        player1Score.text = "0";
 
-        //    Debug.LogError("<Color=Red><b>Missing</b></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
-        //}
-        //else
-        //{
+        GameObject scorePlayer2 = GameObject.Find("PlayerTwoScore");
+        player2Score = scorePlayer2.GetComponent<Text>();
+        player2Score.text = "0";
+    }
 
-
-        //    if (PlayerManager.LocalPlayerInstance == null)
-        //    {
-        //        Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
-
-        //        // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-        //        PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
-        //    }
-        //    else
-        //    {
-
-        //        Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
-        //    }
-
-
-        //}
+    public void GameOver(string winner)
+    {
+        gameOver.text = winner;
+        gameIsOver = true;
     }
 
     void Update()
@@ -69,9 +64,33 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
 
-    public void CountBall(int num)
+    public void CountBall(int num, GameObject ball)
     {
         Debug.Log("Ball number: " + num + " in pocket");
+        if (cue.GetComponent<PhotonView>().IsMine)
+        {
+            int score = int.Parse(player1Score.text);
+            score += 100;
+            player1Score.text = score.ToString();
+            if (int.Parse(player1Score.text) >= 800)
+            {
+                string winner = "Player 1 wins";
+                GameManager.Instance.GameOver(winner);
+            }
+            //Destroy(ball);
+        }
+        if (!cue.GetComponent<PhotonView>().IsMine)
+        {
+            int score = int.Parse(player2Score.text);
+            score += 100;
+            player2Score.text = score.ToString();
+            if (int.Parse(player2Score.text) >= 800)
+            {
+                string winner = "Player 2 wins";
+                GameManager.Instance.GameOver(winner);
+            }
+            //Destroy(ball);
+        }
     }
 
     public override void OnPlayerEnteredRoom(Player other)
@@ -126,12 +145,25 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            cue.transform.rotation = Quaternion.Euler(Vector3.zero);
-            cue.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-            cue.transform.rotation = Quaternion.Euler(Vector3.zero);
+            foreach (GameObject ball in balls)
+            {
+                ball.transform.rotation = Quaternion.Euler(Vector3.zero);
+                ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+                ball.transform.rotation = Quaternion.Euler(Vector3.zero);
+            }
         }
 
-        cue.GetComponent<PlayerManager>().isHit = false;
+        if (!gameIsOver)
+        {
+            cue.GetComponent<PlayerManager>().isHit = false;
+        }
+
+    }
+
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene(0);
     }
 }

@@ -23,6 +23,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     private float powerMultiplier;
     [HideInInspector]
     public bool isHit;
+    private LineRenderer line;
 
 
 
@@ -34,6 +35,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         cue.GetComponent<Rigidbody>().velocity = Vector3.zero;
         cue.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         cue.transform.rotation = Quaternion.Euler(Vector3.zero);
+        line = this.GetComponent<LineRenderer>();
+
     }
 
     void Update()
@@ -74,9 +77,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks
                 powerBar.fillAmount = 0f;
                 isHit = true;
             }
+            line.SetPosition(0, transform.position);
+            line.SetPosition(1, transform.position + transform.forward * 5);
         }
         else
         {
+            line.SetPosition(1, transform.position);
             if (Mathf.Abs(cue.GetComponent<Rigidbody>().velocity.x) < stopThreshold && Mathf.Abs(cue.GetComponent<Rigidbody>().velocity.y) < stopThreshold && Mathf.Abs(cue.GetComponent<Rigidbody>().velocity.z) < stopThreshold)
             {
                 //Debug.Log("is it basically stopped?");
