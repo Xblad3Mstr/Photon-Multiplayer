@@ -77,12 +77,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        //player1Score.text = p1Score.ToString();
-        //player2Score.text = p2Score.ToString();
-        player1Score.text = PhotonNetwork.PlayerList[0].GetScore().ToString();
-        player2Score.text = PhotonNetwork.PlayerList[1].GetScore().ToString();
         if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
         {
+            player1Score.text = PhotonNetwork.PlayerList[0].GetScore().ToString();
+            player2Score.text = PhotonNetwork.PlayerList[1].GetScore().ToString();
             SetPlayerNames();
         }
     }

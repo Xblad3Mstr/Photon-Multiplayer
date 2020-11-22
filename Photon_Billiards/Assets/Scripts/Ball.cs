@@ -14,7 +14,8 @@ public class Ball : MonoBehaviourPunCallbacks
         if(other.tag == "PocketCol")
         {
             GameManager.Instance.CountBall(ballNum);
-            StartCoroutine("DestroyBall");
+            //StartCoroutine("DestroyBall");
+            PhotonNetwork.Destroy(this.gameObject);
         }
        
     }
