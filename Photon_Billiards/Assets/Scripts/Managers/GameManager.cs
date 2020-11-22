@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[1])
             {
                 playCam.enabled = false;
+                PhotonNetwork.PlayerList[0].SetScore(0);
+                PhotonNetwork.PlayerList[1].SetScore(0);
             }
         }
 
@@ -62,6 +64,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         player1Name = GameObject.Find("PlayerOneScore Title").GetComponent<Text>();
         player2Name = GameObject.Find("PlayerTwoScore Title").GetComponent<Text>();
+
+
     }
 
     public void GameOver(string winner)
@@ -73,8 +77,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        player1Score.text = p1Score.ToString();
-        player2Score.text = p2Score.ToString();
+        //player1Score.text = p1Score.ToString();
+        //player2Score.text = p2Score.ToString();
+        player1Score.text = PhotonNetwork.PlayerList[0].GetScore().ToString();
+        player2Score.text = PhotonNetwork.PlayerList[1].GetScore().ToString();
         if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
         {
             SetPlayerNames();
@@ -89,8 +95,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
 
             Debug.Log("Player 1 scored");
-            p1Score += 100;
-            
+            //p1Score += 100;
+
+            PhotonNetwork.PlayerList[0].AddScore(100);
+
+
             if (p1Score >= 800)
             {
                 string winner = "Player 1 wins";
@@ -108,7 +117,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Debug.Log("Player 2 scored");
             p2Score += 100;
-            
+
+            PhotonNetwork.PlayerList[1].AddScore(100);
+
             if (p2Score >= 800)
             {
                 string winner = "Player 2 wins";
