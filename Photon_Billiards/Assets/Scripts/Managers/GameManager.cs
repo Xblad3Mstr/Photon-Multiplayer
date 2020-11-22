@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.PlayerList[0].AddScore(100);
 
 
-            if (PhotonNetwork.PlayerList[0].GetScore() >= 1600)
+            if (PhotonNetwork.PlayerList[0].GetScore() >= 800)
             {
                 string winner = "Player 1 wins";
                 GameOver(winner);
@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             PhotonNetwork.PlayerList[1].AddScore(100);
 
-            if (PhotonNetwork.PlayerList[1].GetScore() >= 1600)
+            if (PhotonNetwork.PlayerList[1].GetScore() >= 800)
             {
                 string winner = "Player 2 wins";
                 GameOver(winner);
