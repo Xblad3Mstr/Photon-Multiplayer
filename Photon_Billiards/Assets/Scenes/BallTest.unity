@@ -1228,7 +1228,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballNum: 14
-  ball: {fileID: 284530268}
 --- !u!135 &284530272
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1996,7 +1995,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballNum: 9
-  ball: {fileID: 538289120}
 --- !u!135 &538289124
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2276,7 +2274,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballNum: 15
-  ball: {fileID: 608804742}
 --- !u!135 &608804746
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2490,7 +2487,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballNum: 13
-  ball: {fileID: 705971586}
 --- !u!135 &705971590
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2823,7 +2819,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballNum: 10
-  ball: {fileID: 726117492}
 --- !u!135 &726117496
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3331,7 +3326,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballNum: 3
-  ball: {fileID: 815679705}
 --- !u!135 &815679709
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4267,7 +4261,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballNum: 5
-  ball: {fileID: 1163357741}
 --- !u!135 &1163357745
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4433,7 +4426,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballNum: 11
-  ball: {fileID: 1340328785}
 --- !u!135 &1340328789
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4599,7 +4591,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballNum: 12
-  ball: {fileID: 1340937983}
 --- !u!135 &1340937987
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5522,7 +5513,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballNum: 4
-  ball: {fileID: 1679002043}
 --- !u!135 &1679002047
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5886,7 +5876,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Player Two Score:'
+  m_Text: 'Player 2 Score:'
 --- !u!222 &1738148513
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6098,7 +6088,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballNum: 8
-  ball: {fileID: 1791945881}
 --- !u!135 &1791945885
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6354,7 +6343,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballNum: 2
-  ball: {fileID: 1855751917}
 --- !u!135 &1855751921
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7115,7 +7103,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballNum: 6
-  ball: {fileID: 2056989420}
 --- !u!135 &2056989424
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7279,7 +7266,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballNum: 7
-  ball: {fileID: 2094082580}
 --- !u!135 &2094082584
 SphereCollider:
   m_ObjectHideFlags: 0
