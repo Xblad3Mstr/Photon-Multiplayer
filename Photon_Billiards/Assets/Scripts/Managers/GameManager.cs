@@ -213,6 +213,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+
     private void SetPlayerNames()
     {
         player1Name.text = PhotonNetwork.PlayerList[0].NickName;
