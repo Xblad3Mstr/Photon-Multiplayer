@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     private Text gameOver;
     [SerializeField]
     private GameObject[] ballIcons;
+    [SerializeField]
+    private int scoreToWin = 1600;
 
     public Camera playCam;
 
